@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Home - My E-Commerce Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #444;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .product {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .product:hover {
+      transform: scale(1.03);
+    }
+
+    .product img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product h3 {
+      margin: 10px 0 5px;
+    }
+
+    .product p {
+      color: #888;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .btn.buy {
+      background-color: #007bff;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  var data = "{{msg}}";
+  if (data == "p1") {
+    alert("New Product Added to Cart");
+  } else if (data == "p2") {
+    alert("Quantity Updated!");
+  } else if (data == "noproductsincart") {
+    alert("No products in Cart!");
+  }
+</script>
+
+<header>
+  <h1>Welcome, {{username}} !</h1>
+  <p>Explore our latest products</p>
+</header>
+
+<nav>
+  <a href="/home">Home</a>
+  <a href="/shoppingcart/{{username}}">My Cart</a>
+  <a href="/orders/{{username}}">Orders</a>
+  <a href="/home">Logout</a>
+</nav>
+
+<section class="products">
+  <!-- Product 1 -->
+  <div class="product">
+    <img src="{{url_for('static', filename='images/phone.jpeg')}}" alt="Mobile">
+    <h3>Smartphone X</h3>
+    <p>9,999</p>
+    <form action="/addtocart1" method="POST">
+      <input type="hidden" name="username" value="{{username}}">
+      <input type="hidden" name="productid" value="1001">
+      <input type="hidden" name="productname" value="Smartphone X">
+      <input type="hidden" name="productprice" value="9999">
+      <button class="btn">Add to Cart</button>
+    </form>
+    <button onclick="pay('{{username}}', 1001,'Smatphone X', 9999)" class="btn buy">Buy Now</button>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product">
+    <img src="{{url_for('static', filename='images/earbuds.jpeg')}}" alt="Tablet">
+    <h3>earbuds</h3>
+    <p>1200</p>
+    <form action="/addtocart1" method="POST">
+      <input type="hidden" name="username" value="{{username}}">
+      <input type="hidden" name="productid" value="1002">
+      <input type="hidden" name="productname" value="earbuds">
+      <input type="hidden" name="productprice" value="1200">
+      <button class="btn">Add to Cart</button>
+    </form>
+    <button onclick="pay('{{username}}', 1002,'earbuds', 1200)" class="btn buy">Buy Now</button>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product">
+    <img src="{{url_for('static', filename='images/charger.jpeg')}}" alt="Headphones">
+    <h3>charger</h3>
+    <p>1500</p>
+    <form action="/addtocart1" method="POST">
+      <input type="hidden" name="username" value="{{username}}">
+      <input type="hidden" name="productid" value="1003">
+      <input type="hidden" name="productname" value="charger">
+      <input type="hidden" name="productprice" value="1500">
+      <button class="btn">Add to Cart</button>
+    </form>
+    <button onclick="pay('{{username}}', 1003, 'charger',1500)" class="btn buy">Buy Now</button>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 My E-Commerce Store. All rights reserved.</p>
+</footer>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  function pay(username, productid, productname,productprice) {
+    var amount = productprice;
+    var options = {
+      key: "rzp_test_DUJyH40OvVOLit", 
+      amount: parseInt(amount) * 100,
+      currency: "INR",
+      name: "E Commerce",
+      description: "Basic E commerce application",
+      image: "{{url_for('static', filename='images/logo.png')}}",
+      handler: function (response) {
+        alert("Payment Success!");
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/success1";
+        form.innerHTML = `
+          <input type="hidden" name="username" value="${username}">
+          <input type="hidden" name="productid" value="${productid}">
+          <input type="hidden" name="productname" value="${productname}">
+          <input type="hidden" name="productprice" value="${productprice}">
+          <input type="hidden" name="quantity" value="1">
+        `;
+        document.body.appendChild(form);
+        form.submit();
+      },
+      prefill: {
+        contact: "+91 7894570611"
+      },
+      theme: {
+        color: "grey"
+      }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.on('payment.failed', function (response) {
+      alert("Payment Failed!");
+      var form = document.createElement("form");
+      form.method = "POST";
+      form.action = "/failure";
+      form.innerHTML = `
+        <input type="hidden" name="username" value="${username}">
+      `;
+      document.body.appendChild(form);
+      form.submit();
+    });
+
+    rzp.open();
+  }
+</script>
+
+</body>
+</html>

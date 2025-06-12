@@ -1,0 +1,146 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | My E-Commerce Store</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #444;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+
+    .form-container {
+      max-width: 450px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 12px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="file"] {
+      padding: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .btn {
+      background-color: #28a745;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+<script>
+  var data = "{{msg}}";
+  if (data == "usernameexist"){
+    alert("User name Already Exists !")
+  }
+  else if (data == "wrongpassword"){
+    alert("Password and Confirm password should be same !")
+  }
+</script>
+<header>
+  <h1>My E-Commerce Store</h1>
+  <p>Create your account below</p>
+</header>
+
+<nav>
+  <a href="/home">Home</a>
+  <a href="/login1">Login</a>
+  <a href="/register1">Register</a>
+</nav>
+
+<div class="form-container">
+  <h2>Register</h2>
+  <form action="/register2" method="POST">
+
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Enter username" required>
+
+    <label for="fullname">Full Name</label>
+    <input type="text" name="fullname" id="fullname" placeholder="Enter your full name" required>
+
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+
+    <label for="mobile">Mobile Number</label>
+    <input type="tel" name="mobile" id="mobile" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}" required>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Enter password" required>
+
+    <label for="cpassword">Confirm Password</label>
+    <input type="password" name="cpassword" id="cpassword" placeholder="Re-enter password" required>
+
+    <button type="submit" class="btn">Register</button>
+  </form>
+</div>
+
+<footer>
+  <p>&copy; 2025 My E-Commerce Store. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
